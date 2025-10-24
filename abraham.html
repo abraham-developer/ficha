@@ -150,6 +150,7 @@
         
         html {
             scroll-behavior: smooth;
+            height: 100%;
         }
         
         body {
@@ -159,6 +160,7 @@
             overflow-x: hidden;
             line-height: 1.6;
             font-size: 16px;
+            height: 100%;
         }
         
         /* Typography */
@@ -179,12 +181,13 @@
             min-height: 100vh;
             margin: 0 auto;
             position: relative;
-            overflow: hidden;
+            overflow: visible;
             background: radial-gradient(ellipse at center, rgba(15, 15, 35, 0.9) 0%, rgba(5, 5, 15, 0.95) 100%);
             z-index: 1;
             padding: 60px 40px;
             display: flex;
             flex-direction: column;
+            transform-style: preserve-3d;
         }
         
         /* Custom Cursor */
@@ -213,7 +216,7 @@
             z-index: 9998;
         }
         
-        /* Animated Background */
+        /* Animated Background with Parallax Layers */
         .bg-canvas {
             position: fixed;
             top: 0;
@@ -222,6 +225,26 @@
             height: 100%;
             z-index: -1;
             overflow: hidden;
+        }
+        
+        .parallax-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .parallax-layer-1 {
+            z-index: 1;
+        }
+        
+        .parallax-layer-2 {
+            z-index: 2;
+        }
+        
+        .parallax-layer-3 {
+            z-index: 3;
         }
         
         .bg-pattern {
@@ -290,12 +313,144 @@
             border-radius: 50%;
         }
         
+        /* Asteroid Parallax Effect */
+        .asteroid-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
+        
+        .asteroid {
+            position: absolute;
+            width: 60px;
+            height: 50px;
+            top: 20%;
+            left: -100px;
+            transition: all 0.5s ease;
+            z-index: 10;
+            transform: rotate(15deg);
+        }
+        
+        .asteroid-body {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 30%, #8b7355, #4a3f36);
+            border-radius: 45% 55% 50% 50% / 60% 40% 60% 40%;
+            box-shadow: 
+                inset -5px -5px 10px rgba(0, 0, 0, 0.5),
+                inset 3px 3px 5px rgba(255, 255, 255, 0.1),
+                0 0 20px rgba(255, 165, 0, 0.4);
+            overflow: hidden;
+        }
+        
+        .asteroid-crater {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 0, 0, 0.6), transparent);
+        }
+        
+        .asteroid-crater-1 {
+            width: 10px;
+            height: 10px;
+            top: 10px;
+            left: 15px;
+        }
+        
+        .asteroid-crater-2 {
+            width: 8px;
+            height: 8px;
+            top: 25px;
+            left: 30px;
+        }
+        
+        .asteroid-crater-3 {
+            width: 5px;
+            height: 5px;
+            top: 35px;
+            left: 20px;
+        }
+        
+        .asteroid-glow {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 45% 55% 50% 50% / 60% 40% 60% 40%;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 165, 0, 0.5), transparent 70%);
+            animation: asteroid-glow 1.5s infinite alternate;
+        }
+        
+        @keyframes asteroid-glow {
+            0% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .tail-particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: radial-gradient(circle, rgba(255, 165, 0, 0.9), rgba(255, 100, 0, 0.5));
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 6;
+            box-shadow: 0 0 8px rgba(255, 165, 0, 0.9);
+        }
+        
+        .tail-spark {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #fff;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 7;
+            box-shadow: 0 0 6px #fff;
+        }
+        
+        .asteroid-fragment {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: radial-gradient(circle, #8b7355, #4a3f36);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 6;
+            box-shadow: 0 0 3px rgba(255, 165, 0, 0.7);
+        }
+        
+        .shockwave {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 165, 0, 0.6);
+            pointer-events: none;
+            z-index: 4;
+            animation: shockwave-expand 1s ease-out forwards;
+        }
+        
+        @keyframes shockwave-expand {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(3);
+                opacity: 0;
+            }
+        }
+        
         /* Header Styles */
         .header {
             text-align: center;
             margin-bottom: 60px;
             position: relative;
             z-index: 10;
+            transform: translateZ(0);
         }
         
         /* 3D Cube Animation */
@@ -305,6 +460,7 @@
             height: 200px;
             margin: 0 auto 40px;
             perspective: 1000px;
+            transform-style: preserve-3d;
         }
         
         .main-cube {
@@ -377,6 +533,7 @@
             margin-bottom: 60px;
             position: relative;
             z-index: 10;
+            transform: translateZ(0);
         }
         
         /* Section Title */
@@ -433,6 +590,7 @@
             transition: all 0.3s ease;
             cursor: pointer;
             overflow: hidden;
+            transform-style: preserve-3d;
         }
         
         .skill-bubble::before {
@@ -453,7 +611,7 @@
         }
         
         .skill-bubble:hover {
-            transform: scale(1.1);
+            transform: scale(1.1) rotateY(10deg);
         }
         
         .skill-icon {
@@ -510,6 +668,7 @@
             transition: all 0.3s ease;
             overflow: hidden;
             border: 1px solid rgba(100, 149, 237, 0.2);
+            transform-style: preserve-3d;
         }
         
         .experience-bubble::before {
@@ -530,7 +689,7 @@
         }
         
         .experience-bubble:hover {
-            transform: translateY(-5px);
+            transform: translateY(-5px) rotateX(5deg);
         }
         
         .experience-bubble h3 {
@@ -574,6 +733,7 @@
             transition: all 0.3s ease;
             cursor: pointer;
             border: 1px solid rgba(100, 149, 237, 0.2);
+            transform-style: preserve-3d;
         }
         
         .contact-bubble::before {
@@ -594,7 +754,7 @@
         }
         
         .contact-bubble:hover {
-            transform: translateY(-5px);
+            transform: translateY(-5px) rotateZ(2deg);
         }
         
         .contact-bubble i {
@@ -626,10 +786,11 @@
             z-index: 100;
             transition: all 0.3s ease;
             border: 1px solid rgba(100, 149, 237, 0.3);
+            transform-style: preserve-3d;
         }
         
         .dimensional-button:hover {
-            transform: scale(1.1);
+            transform: scale(1.1) rotateZ(5deg);
         }
         
         .dimensional-button i {
@@ -735,6 +896,129 @@
             100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; transform: rotate(360deg); }
         }
         
+        /* Parallax Elements */
+        .parallax-element {
+            position: absolute;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .parallax-element-1 {
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(100, 149, 237, 0.3) 0%, rgba(100, 149, 237, 0) 70%);
+            border-radius: 50%;
+            top: 20%;
+            left: 10%;
+        }
+        
+        .parallax-element-2 {
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(167, 139, 250, 0.3) 0%, rgba(167, 139, 250, 0) 70%);
+            border-radius: 50%;
+            top: 60%;
+            right: 10%;
+        }
+        
+        .parallax-element-3 {
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, rgba(255, 99, 71, 0.3) 0%, rgba(255, 99, 71, 0) 70%);
+            border-radius: 50%;
+            bottom: 20%;
+            left: 20%;
+        }
+        
+        /* Floating Elements */
+        .floating-element {
+            position: absolute;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .floating-element.visible {
+            opacity: 1;
+        }
+        
+        .floating-element-1 {
+            width: 60px;
+            height: 60px;
+            background: rgba(100, 149, 237, 0.2);
+            border-radius: 50%;
+            top: 30%;
+            left: -60px;
+            animation: float-in 1s forwards;
+        }
+        
+        .floating-element-2 {
+            width: 80px;
+            height: 80px;
+            background: rgba(167, 139, 250, 0.2);
+            border-radius: 50%;
+            top: 50%;
+            right: -80px;
+            animation: float-in 1s 0.5s forwards;
+        }
+        
+        .floating-element-3 {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 99, 71, 0.2);
+            border-radius: 50%;
+            bottom: 30%;
+            left: -50px;
+            animation: float-in 1s 1s forwards;
+        }
+        
+        @keyframes float-in {
+            0% { transform: translateX(0); opacity: 0; }
+            100% { transform: translateX(100px); opacity: 1; }
+        }
+        
+        /* Reveal Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Construction Effect */
+        .construction-effect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9;
+            overflow: hidden;
+        }
+        
+        .construction-line {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #ff9800, transparent);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .construction-line.active {
+            opacity: 1;
+            animation: construction-scan 1s ease-out forwards;
+        }
+        
+        @keyframes construction-scan {
+            0% { width: 0; left: 0; }
+            100% { width: 100%; left: 0; }
+        }
+        
         /* Responsive Design */
         @media (max-width: 768px) {
             .poster-container {
@@ -757,6 +1041,11 @@
                 flex-direction: column;
                 align-items: center;
             }
+            
+            .asteroid {
+                width: 45px;
+                height: 38px;
+            }
         }
     </style>
 </head>
@@ -771,25 +1060,50 @@
     <!-- Particle System -->
     <div class="particle-system" id="particle-system"></div>
     
+    <!-- Asteroid Container -->
+    <div class="asteroid-container" id="asteroid-container">
+        <div class="asteroid" id="asteroid">
+            <div class="asteroid-body">
+                <div class="asteroid-crater asteroid-crater-1"></div>
+                <div class="asteroid-crater asteroid-crater-2"></div>
+                <div class="asteroid-crater asteroid-crater-3"></div>
+                <div class="asteroid-glow"></div>
+            </div>
+        </div>
+    </div>
+    
     <main class="poster-container">
-        <!-- Animated Background with Abstract Shapes -->
+        <!-- Animated Background with Parallax Layers -->
         <div class="bg-canvas">
-            <div class="bg-pattern"></div>
-            <div class="floating-shape" style="top: 10%; left: 10%; width: 200px; height: 200px;"></div>
-            <div class="floating-shape" style="top: 20%; right: 15%; width: 150px; height: 150px; animation-delay: -5s;"></div>
-            <div class="floating-shape" style="bottom: 30%; left: 20%; width: 180px; height: 180px; animation-delay: -10s;"></div>
+            <div class="parallax-layer parallax-layer-1">
+                <div class="bg-pattern"></div>
+                <div class="floating-shape" style="top: 10%; left: 10%; width: 200px; height: 200px;"></div>
+                <div class="floating-shape" style="top: 20%; right: 15%; width: 150px; height: 150px; animation-delay: -5s;"></div>
+                <div class="floating-shape" style="bottom: 30%; left: 20%; width: 180px; height: 180px; animation-delay: -10s;"></div>
+            </div>
             
-            <div class="abstract-shape" style="top: 5%; left: 5%; width: 300px; height: 300px;"></div>
-            <div class="abstract-shape" style="bottom: 10%; right: 5%; width: 250px; height: 250px; animation-delay: -5s;"></div>
+            <div class="parallax-layer parallax-layer-2">
+                <div class="abstract-shape" style="top: 5%; left: 5%; width: 300px; height: 300px;"></div>
+                <div class="abstract-shape" style="bottom: 10%; right: 5%; width: 250px; height: 250px; animation-delay: -5s;"></div>
+            </div>
             
-            <div class="morphing-shape" style="top: 50%; left: 50%; transform: translate(-50%, -50%);"></div>
+            <div class="parallax-layer parallax-layer-3">
+                <div class="morphing-shape" style="top: 50%; left: 50%; transform: translate(-50%, -50%);"></div>
+            </div>
+            
+            <!-- Parallax Elements -->
+            <div class="parallax-element parallax-element-1" data-speed="0.5"></div>
+            <div class="parallax-element parallax-element-2" data-speed="0.7"></div>
+            <div class="parallax-element parallax-element-3" data-speed="0.3"></div>
         </div>
         
         <!-- Physics Simulation Container -->
         <div class="physics-container" id="physics-container"></div>
         
         <!-- Header Section -->
-        <header class="header">
+        <header class="header reveal" id="header">
+            <div class="construction-effect" id="header-construction"></div>
+            
             <!-- 3D Cube Animation -->
             <div class="cube-container">
                 <div class="main-cube">
@@ -819,12 +1133,14 @@
         </header>
         
         <!-- Introduction Section -->
-        <section class="intro liquid">
+        <section class="intro reveal liquid" id="intro">
+            <div class="construction-effect" id="intro-construction"></div>
             <p>Desarrollador web full stack con experiencia en la creación de soluciones digitales innovadoras. Especializado en frontend con React, backend con GoLang, contenerización con Docker y automatización de procesos con n8n AI. Experto en microservicios, APIs RESTful y arquitecturas escalables.</p>
         </section>
         
         <!-- Skills Section -->
-        <section class="skills-section" aria-labelledby="skills-title">
+        <section class="skills-section reveal" id="skills-section" aria-labelledby="skills-title">
+            <div class="construction-effect" id="skills-construction"></div>
             <h2 id="skills-title" class="section-title">Habilidades Técnicas</h2>
             <div class="skills-container">
                 <div class="skill-bubble">
@@ -851,10 +1167,16 @@
                     <div class="skill-description">Automatización de flujos de trabajo con inteligencia artificial</div>
                 </div>
             </div>
+            
+            <!-- Floating Elements -->
+            <div class="floating-element floating-element-1"></div>
+            <div class="floating-element floating-element-2"></div>
+            <div class="floating-element floating-element-3"></div>
         </section>
         
         <!-- Experience Section -->
-        <section class="experience-section" aria-labelledby="experience-title">
+        <section class="experience-section reveal" id="experience-section" aria-labelledby="experience-title">
+            <div class="construction-effect" id="experience-construction"></div>
             <h2 id="experience-title" class="section-title">Experiencia y Logros</h2>
             <div class="experience-container">
                 <div class="experience-bubble liquid">
@@ -870,7 +1192,8 @@
         </section>
         
         <!-- Contact Section -->
-        <section class="contact-section" aria-labelledby="contact-title">
+        <section class="contact-section reveal" id="contact-section" aria-labelledby="contact-title">
+            <div class="construction-effect" id="contact-construction"></div>
             <h2 id="contact-title" class="section-title">Contacto</h2>
             <div class="contact-container">
                 <div class="contact-bubble">
@@ -1116,6 +1439,397 @@
             }
         }
         
+        // Asteroid Parallax Effect
+        function initAsteroidParallax() {
+            const asteroid = document.getElementById('asteroid');
+            const asteroidContainer = document.getElementById('asteroid-container');
+            const sections = document.querySelectorAll('.reveal');
+            const constructionEffects = document.querySelectorAll('.construction-effect');
+            
+            // Track which sections have been constructed
+            const constructedSections = new Set();
+            
+            // Create tail particles periodically
+            setInterval(() => {
+                createTailParticles(asteroid);
+            }, 30);
+            
+            // Create asteroid fragments periodically
+            setInterval(() => {
+                createAsteroidFragments(asteroid);
+            }, 300);
+            
+            // Create shockwaves periodically
+            setInterval(() => {
+                createShockwave(asteroid);
+            } , 2000);
+            
+            window.addEventListener('scroll', () => {
+                const scrolled = window.pageYOffset;
+                const windowHeight = window.innerHeight;
+                const documentHeight = document.documentElement.scrollHeight;
+                
+                // Calculate asteroid position based on scroll
+                const scrollPercentage = scrolled / (documentHeight - windowHeight);
+                const asteroidX = scrollPercentage * (window.innerWidth + 200) - 100;
+                const asteroidY = 20 + scrollPercentage * 60; // Move from 20% to 80% of viewport height
+                
+                // Update asteroid position
+                asteroid.style.left = `${asteroidX}px`;
+                asteroid.style.top = `${asteroidY}%`;
+                
+                // Change asteroid angle based on position
+                const angle = 15 + scrollPercentage * 30; // From 15deg to 45deg
+                asteroid.style.transform = `rotate(${angle}deg)`;
+                
+                // Check which sections are in view and trigger construction effect
+                sections.forEach((section, index) => {
+                    const rect = section.getBoundingClientRect();
+                    const sectionTop = rect.top;
+                    const sectionBottom = rect.bottom;
+                    
+                    // If section is in view and hasn't been constructed yet
+                    if (sectionTop < windowHeight * 0.8 && sectionBottom > 0 && !constructedSections.has(section.id)) {
+                        constructedSections.add(section.id);
+                        
+                        // Trigger construction effect
+                        const constructionEffect = document.getElementById(`${section.id}-construction`);
+                        if (constructionEffect) {
+                            createConstructionEffect(constructionEffect, section);
+                        }
+                        
+                        // Create construction particles
+                        createConstructionParticles(asteroidX + 30, asteroidY);
+                        
+                        // Reveal the section
+                        setTimeout(() => {
+                            section.classList.add('active');
+                        }, 500);
+                    }
+                });
+            });
+        }
+        
+        // Create tail particles for the asteroid
+        function createTailParticles(asteroid) {
+            const rect = asteroid.getBoundingClientRect();
+            const tailX = rect.left + 5; // Left side of asteroid
+            const tailY = rect.top + rect.height / 2;
+            
+            // Create tail particles
+            for (let i = 0; i < 6; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('tail-particle');
+                
+                const size = Math.random() * 4 + 2;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                particle.style.left = `${tailX}px`;
+                particle.style.top = `${tailY + (Math.random() * 15 - 7.5)}px`;
+                
+                document.body.appendChild(particle);
+                
+                const velocity = 3 + Math.random() * 4;
+                
+                let currentX = 0;
+                let currentY = 0;
+                let opacity = 1;
+                
+                const animate = () => {
+                    currentX -= velocity;
+                    currentY += (Math.random() - 0.5) * 4;
+                    opacity -= 0.04;
+                    
+                    particle.style.transform = `translate(${currentX}px, ${currentY}px)`;
+                    particle.style.opacity = opacity;
+                    
+                    if (opacity > 0) {
+                        requestAnimationFrame(animate);
+                    } else {
+                        document.body.removeChild(particle);
+                    }
+                };
+                
+                requestAnimationFrame(animate);
+            }
+            
+            // Create tail sparks
+            if (Math.random() > 0.4) {
+                const spark = document.createElement('div');
+                spark.classList.add('tail-spark');
+                
+                spark.style.left = `${tailX}px`;
+                spark.style.top = `${tailY + (Math.random() * 15 - 7.5)}px`;
+                
+                document.body.appendChild(spark);
+                
+                const velocity = 4 + Math.random() * 3;
+                
+                let currentX = 0;
+                let currentY = 0;
+                let opacity = 1;
+                
+                const animate = () => {
+                    currentX -= velocity;
+                    currentY += (Math.random() - 0.5) * 5;
+                    opacity -= 0.05;
+                    
+                    spark.style.transform = `translate(${currentX}px, ${currentY}px)`;
+                    spark.style.opacity = opacity;
+                    
+                    if (opacity > 0) {
+                        requestAnimationFrame(animate);
+                    } else {
+                        document.body.removeChild(spark);
+                    }
+                };
+                
+                requestAnimationFrame(animate);
+            }
+        }
+        
+        // Create asteroid fragments
+        function createAsteroidFragments(asteroid) {
+            const rect = asteroid.getBoundingClientRect();
+            const asteroidX = rect.left + rect.width / 2;
+            const asteroidY = rect.top + rect.height / 2;
+            
+            // Create 1-3 fragments
+            const fragmentCount = Math.floor(Math.random() * 3) + 1;
+            
+            for (let i = 0; i < fragmentCount; i++) {
+                const fragment = document.createElement('div');
+                fragment.classList.add('asteroid-fragment');
+                
+                const size = Math.random() * 3 + 1;
+                fragment.style.width = `${size}px`;
+                fragment.style.height = `${size}px`;
+                
+                fragment.style.left = `${asteroidX}px`;
+                fragment.style.top = `${asteroidY}px`;
+                
+                document.body.appendChild(fragment);
+                
+                const angle = Math.random() * Math.PI * 2;
+                const velocity = 1 + Math.random() * 2;
+                const vx = Math.cos(angle) * velocity;
+                const vy = Math.sin(angle) * velocity;
+                
+                let currentX = 0;
+                let currentY = 0;
+                let opacity = 1;
+                
+                const animate = () => {
+                    currentX += vx;
+                    currentY += vy + 0.2; // Add gravity effect
+                    opacity -= 0.02;
+                    
+                    fragment.style.transform = `translate(${currentX}px, ${currentY}px)`;
+                    fragment.style.opacity = opacity;
+                    
+                    if (opacity > 0) {
+                        requestAnimationFrame(animate);
+                    } else {
+                        document.body.removeChild(fragment);
+                    }
+                };
+                
+                requestAnimationFrame(animate);
+            }
+        }
+        
+        // Create shockwave effect
+        function createShockwave(asteroid) {
+            const rect = asteroid.getBoundingClientRect();
+            const asteroidX = rect.left + rect.width / 2;
+            const asteroidY = rect.top + rect.height / 2;
+            
+            const shockwave = document.createElement('div');
+            shockwave.classList.add('shockwave');
+            
+            shockwave.style.left = `${asteroidX - 20}px`;
+            shockwave.style.top = `${asteroidY - 20}px`;
+            
+            document.body.appendChild(shockwave);
+            
+            // Remove after animation completes
+            setTimeout(() => {
+                document.body.removeChild(shockwave);
+            }, 1000);
+        }
+        
+        // Create construction effect for a section
+        function createConstructionEffect(container, section) {
+            const rect = section.getBoundingClientRect();
+            const lines = 10;
+            
+            for (let i = 0; i < lines; i++) {
+                const line = document.createElement('div');
+                line.classList.add('construction-line');
+                line.style.top = `${(i / lines) * 100}%`;
+                line.style.width = '0';
+                
+                container.appendChild(line);
+                
+                // Animate each line with a delay
+                setTimeout(() => {
+                    line.classList.add('active');
+                }, i * 100);
+            }
+            
+            // Clean up after animation
+            setTimeout(() => {
+                container.innerHTML = '';
+            }, lines * 100 + 1000);
+        }
+        
+        // Create construction particles from asteroid
+        function createConstructionParticles(x, y) {
+            const particleCount = 20;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('tail-particle');
+                
+                const size = Math.random() * 6 + 2;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                particle.style.left = `${x}px`;
+                particle.style.top = `${y}px`;
+                
+                document.body.appendChild(particle);
+                
+                const angle = (Math.PI * 2 * i) / particleCount;
+                const velocity = 3 + Math.random() * 5;
+                const vx = Math.cos(angle) * velocity;
+                const vy = Math.sin(angle) * velocity;
+                
+                let currentX = 0;
+                let currentY = 0;
+                let opacity = 1;
+                
+                const animate = () => {
+                    currentX += vx;
+                    currentY += vy;
+                    opacity -= 0.02;
+                    
+                    particle.style.transform = `translate(${currentX}px, ${currentY}px)`;
+                    particle.style.opacity = opacity;
+                    
+                    if (opacity > 0) {
+                        requestAnimationFrame(animate);
+                    } else {
+                        document.body.removeChild(particle);
+                    }
+                };
+                
+                requestAnimationFrame(animate);
+            }
+            
+            // Create sparks
+            for (let i = 0; i < 10; i++) {
+                const spark = document.createElement('div');
+                spark.classList.add('tail-spark');
+                
+                spark.style.left = `${x}px`;
+                spark.style.top = `${y}px`;
+                
+                document.body.appendChild(spark);
+                
+                const angle = (Math.PI * 2 * i) / 10;
+                const velocity = 4 + Math.random() * 4;
+                const vx = Math.cos(angle) * velocity;
+                const vy = Math.sin(angle) * velocity;
+                
+                let currentX = 0;
+                let currentY = 0;
+                let opacity = 1;
+                
+                const animate = () => {
+                    currentX += vx;
+                    currentY += vy;
+                    opacity -= 0.03;
+                    
+                    spark.style.transform = `translate(${currentX}px, ${currentY}px)`;
+                    spark.style.opacity = opacity;
+                    
+                    if (opacity > 0) {
+                        requestAnimationFrame(animate);
+                    } else {
+                        document.body.removeChild(spark);
+                    }
+                };
+                
+                requestAnimationFrame(animate);
+            }
+        }
+        
+        // Parallax Effect
+        function initParallax() {
+            const parallaxElements = document.querySelectorAll('.parallax-element');
+            const parallaxLayers = document.querySelectorAll('.parallax-layer');
+            
+            window.addEventListener('scroll', () => {
+                const scrolled = window.pageYOffset;
+                
+                // Parallax elements
+                parallaxElements.forEach(element => {
+                    const speed = element.dataset.speed || 0.5;
+                    const yPos = -(scrolled * speed);
+                    element.style.transform = `translateY(${yPos}px)`;
+                });
+                
+                // Parallax layers
+                parallaxLayers.forEach((layer, index) => {
+                    const speed = (index + 1) * 0.2;
+                    const yPos = -(scrolled * speed);
+                    layer.style.transform = `translateY(${yPos}px)`;
+                });
+            });
+        }
+        
+        // Reveal Animation
+        function initRevealAnimation() {
+            const reveals = document.querySelectorAll('.reveal');
+            
+            function checkReveal() {
+                reveals.forEach(reveal => {
+                    const windowHeight = window.innerHeight;
+                    const elementTop = reveal.getBoundingClientRect().top;
+                    const elementVisible = 150;
+                    
+                    if (elementTop < windowHeight - elementVisible) {
+                        reveal.classList.add('active');
+                    }
+                });
+            }
+            
+            window.addEventListener('scroll', checkReveal);
+            checkReveal(); // Check on load
+        }
+        
+        // Floating Elements Animation
+        function initFloatingElements() {
+            const floatingElements = document.querySelectorAll('.floating-element');
+            
+            function checkFloatingElements() {
+                floatingElements.forEach(element => {
+                    const windowHeight = window.innerHeight;
+                    const elementTop = element.getBoundingClientRect().top;
+                    const elementVisible = 150;
+                    
+                    if (elementTop < windowHeight - elementVisible) {
+                        element.classList.add('visible');
+                    }
+                });
+            }
+            
+            window.addEventListener('scroll', checkFloatingElements);
+            checkFloatingElements(); // Check on load
+        }
+        
         // Dimensional button interaction
         document.getElementById('dimensional-button').addEventListener('click', function() {
             // Create explosion of particles
@@ -1181,6 +1895,10 @@
             createMatrixRain();
             createParticleSystem();
             initPhysics();
+            initParallax();
+            initRevealAnimation();
+            initFloatingElements();
+            initAsteroidParallax();
         });
         
         // Add interaction with abstract shapes
